@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.swa.swamobileteam.utils.DeliveryType;
+
 public class PagerAdapter extends FragmentPagerAdapter{
 
     private final int TABS_COUNT = 2;

@@ -2,6 +2,7 @@ package com.swa.swamobileteam.ui.deliveryGroups;
 
 import com.swa.swamobileteam.data.deliveries.Location;
 import com.swa.swamobileteam.ui.deliveryGroups.view.DeliveryViewHolder;
+import com.swa.swamobileteam.utils.DeliveryType;
 
 import java.util.Calendar;
 import java.util.Date;

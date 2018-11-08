@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.swa.swamobileteam.R;
 import com.swa.swamobileteam.ui.delivery.DeliveryActivity;
 import com.swa.swamobileteam.ui.deliveryGroups.DeliveryGroupsContract;
+import com.swa.swamobileteam.utils.DeliveryType;
 
 import javax.inject.Inject;
 

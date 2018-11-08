@@ -8,6 +8,7 @@ import com.swa.swamobileteam.ui.base.BaseModel;
 import com.swa.swamobileteam.ui.base.BasePresenter;
 import com.swa.swamobileteam.ui.base.BaseView;
 import com.swa.swamobileteam.ui.deliveryGroups.view.DeliveryViewHolder;
+import com.swa.swamobileteam.utils.DeliveryType;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
