@@ -8,6 +8,7 @@ import com.swa.swamobileteam.ui.base.BaseModel;
 import com.swa.swamobileteam.ui.base.BasePresenter;
 import com.swa.swamobileteam.ui.base.BaseView;
 import com.swa.swamobileteam.ui.deliveryGroups.view.DeliveryViewHolder;
+import com.swa.swamobileteam.utils.DeliveryType;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
@@ -135,7 +136,7 @@ public interface DeliveryGroupsContract {
         void setTimePeriod(String time);
 
         /**
-         * Sets parcel id of the delivery
+         * Sets PARCEL id of the delivery
          * @param id identifier of the delivery
          */
         void setParcelId(String id);

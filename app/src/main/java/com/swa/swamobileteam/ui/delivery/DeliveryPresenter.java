@@ -104,7 +104,7 @@ public class DeliveryPresenter implements DeliveryContract.Presenter{
             view.setAddress(deliveryInfo.getAddress().getAddress());
             this.location = deliveryInfo.getAddress().getLocation();
 
-            //Set parcel info
+            //Set PARCEL info
             view.setParcelName("X-box");
             view.setParcelId(deliveryInfo.getId());
             view.setWeight(deliveryInfo.getParcelInfo().getWeight());

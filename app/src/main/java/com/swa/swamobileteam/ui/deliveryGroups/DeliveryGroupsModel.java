@@ -9,6 +9,7 @@ import com.swa.swamobileteam.data.deliveries.InProgressDeliveriesRepositoryImpl;
 import com.swa.swamobileteam.data.deliveries.Location;
 import com.swa.swamobileteam.data.deliveries.RouteRepository;
 import com.swa.swamobileteam.data.deliveries.RouteRepositoryImpl;
+import com.swa.swamobileteam.utils.DeliveryType;
 
 import javax.inject.Inject;
 

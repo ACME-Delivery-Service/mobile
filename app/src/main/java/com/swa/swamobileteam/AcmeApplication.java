@@ -43,7 +43,6 @@ public class AcmeApplication extends DaggerApplication implements HasSupportFrag
 
         // Отключить вызов exceptions после отписки от observable
         RxJavaPlugins.setErrorHandler(throwable -> Timber.e(throwable.getMessage()));
-
     }
 
     public static RefWatcher getRefWatcher(Context context) {

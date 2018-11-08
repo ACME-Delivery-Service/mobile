@@ -3,6 +3,9 @@ package com.swa.swamobileteam.di.modules;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.swa.swamobileteam.AcmeApplication;
 import com.swa.swamobileteam.di.AppScope;
 import com.swa.swamobileteam.transportApi.TransportApiClient;
@@ -52,7 +55,12 @@ public class ApplicationModule {
     @AppScope
     @Provides
     public GsonConverterFactory provideGsonConverterFactory() {
-        return GsonConverterFactory.create();
+        Gson gson = new GsonBuilder()
+                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                .setDateFormat("yyyy-MM-dd HH:mm:ss")
+                .create();
+
+        return GsonConverterFactory.create(gson);
     }
 
     @AppScope

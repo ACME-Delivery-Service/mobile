@@ -8,14 +8,15 @@ public class DeliveryScheduleResponse {
     /**
      * Delivery schedules
      */
-    private List<List<DeliveriesListItem>> results;
+    private List<DeliveriesListItem> results;
+
     private int totalCount;
 
     public int getTotalCount() {
         return totalCount;
     }
 
-    public List<List<DeliveriesListItem>> getResults() {
+    public List<DeliveriesListItem> getResults() {
         return results;
     }
 }

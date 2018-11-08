@@ -1,7 +1,7 @@
 package com.swa.swamobileteam.data.deliveries;
 
 /**
- * Information about a client a parcel is intended to be delivered to.
+ * Information about a client a PARCEL is intended to be delivered to.
  */
 public class ClientInfo {
     /**
