@@ -34,11 +34,11 @@ public interface TransportApi {
                                                    @Header("Authorization") String token);
 
     @GET("order/{id}/info")
-    Single<DeliveryOrderResponse> getDeliveryOrderInfo(@Path("id") Integer orderID,
+    Single<DeliveryOrderResponse> getDeliveryOrderInfo(@Path("id") int orderID,
                                                        @Header("Authorization") String token);
 
     @POST("order/{id}/status")
-    Completable sumbitNewDeliveryOrderStatus(@Path("id") Integer orderID,
+    Completable submitNewDeliveryOrderStatus(@Path("id") int orderID,
                                              @Header("Authorization") String token);
 
     @GET("driver/co_contact")
