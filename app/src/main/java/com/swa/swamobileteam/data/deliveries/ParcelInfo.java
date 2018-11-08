@@ -29,7 +29,7 @@ public class ParcelInfo {
     }
 
     public enum Shape {
-        letter, parcel, large_envelope, postcard
+        LETTER, PARCEL, LARGE_ENVELOPE, POSTCARD
     }
 
     public void setId(String id) {
@@ -37,7 +37,7 @@ public class ParcelInfo {
     }
 
     /**
-     * Information about parcel's size in meters.
+     * Information about PARCEL's size in meters.
      */
     public static class Dimensions {
         private Double x;

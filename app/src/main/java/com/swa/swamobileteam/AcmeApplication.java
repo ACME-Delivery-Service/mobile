@@ -70,6 +70,7 @@ public class AcmeApplication extends DaggerApplication implements HasSupportFrag
 
         Gson gson = new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                .setDateFormat("yyyy-MM-dd HH:mm:ss")
                 .create();
 
         Retrofit retrofit = new Retrofit.Builder()

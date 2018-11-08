@@ -4,7 +4,6 @@ import com.swa.swamobileteam.data.deliveries.Location;
 import com.swa.swamobileteam.transportApi.authentication.LoginResponse;
 import com.swa.swamobileteam.transportApi.authentication.LoginRequestParams;
 import com.swa.swamobileteam.transportApi.controlOperator.ControlOperatorResponse;
-import com.swa.swamobileteam.transportApi.deliveries.DeliveriesParams;
 import com.swa.swamobileteam.transportApi.deliveries.DeliveryOrderResponse;
 import com.swa.swamobileteam.transportApi.deliveries.DeliveryScheduleResponse;
 

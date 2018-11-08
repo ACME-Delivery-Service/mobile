@@ -20,7 +20,7 @@ public interface DeliveryContract {
         void setTimePeriod(String time);
 
         /**
-         * Sets parcel id of the delivery
+         * Sets PARCEL id of the delivery
          * @param id identifier of the delivery
          */
         void setParcelId(String id);
