@@ -1,5 +1,7 @@
 package com.swa.swamobileteam.data.deliveries;
 
+import com.google.gson.annotations.SerializedName;
+
 public class ParcelInfo {
 
     private Double weight;
@@ -29,7 +31,17 @@ public class ParcelInfo {
     }
 
     public enum Shape {
-        LETTER, PARCEL, LARGE_ENVELOPE, POSTCARD
+        @SerializedName("letter")
+        LETTER,
+
+        @SerializedName("parcel")
+        PARCEL,
+
+        @SerializedName("large_envelope")
+        LARGE_ENVELOPE,
+
+        @SerializedName("postcard")
+        POSTCARD
     }
 
     public void setId(String id) {

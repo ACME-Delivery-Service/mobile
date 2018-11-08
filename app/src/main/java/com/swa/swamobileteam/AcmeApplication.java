@@ -15,6 +15,7 @@ import com.swa.swamobileteam.transportApi.TransportApi;
 import com.swa.swamobileteam.transportApi.authentication.LoginRequestParams;
 import com.swa.swamobileteam.transportApi.authentication.LoginResponse;
 import com.swa.swamobileteam.transportApi.deliveries.DeliveriesParams;
+import com.swa.swamobileteam.transportApi.deliveries.DeliveryOrderResponse;
 import com.swa.swamobileteam.transportApi.deliveries.DeliveryScheduleResponse;
 import com.swa.swamobileteam.utils.NotLoggingTree;
 import com.swa.swamobileteam.utils.constants.AuthorizationConstants;
@@ -61,48 +62,6 @@ public class AcmeApplication extends DaggerApplication implements HasSupportFrag
 
         // Отключить вызов exceptions после отписки от observable
         RxJavaPlugins.setErrorHandler(throwable -> Timber.e(throwable.getMessage()));
-
-        // test
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(message -> Timber.tag("okHttp").d(message)).setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient httpClient = new OkHttpClient.Builder()
-                .addInterceptor(interceptor)
-                .build();
-
-        Gson gson = new GsonBuilder()
-                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                .setDateFormat("yyyy-MM-dd HH:mm:ss")
-                .create();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(AuthorizationConstants.acmeApiUrl)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .client(httpClient)
-                .build();
-        TransportApi api = retrofit.create(TransportApi.class);
-
-        String testToken = "Token 4605c9fd2066bd83c2206bf50c8ed3e95fba005e";
-
-        api.getSchedule(10, 0, testToken)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new SingleObserver<DeliveryScheduleResponse>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        System.out.println("did subscribe");
-                    }
-
-                    @Override
-                    public void onSuccess(DeliveryScheduleResponse deliveryScheduleResponse) {
-                        System.out.println("success, number of items " + deliveryScheduleResponse.getResults().size());
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        System.out.println("failure");
-                        e.printStackTrace();
-                    }
-                });
     }
 
     public static RefWatcher getRefWatcher(Context context) {

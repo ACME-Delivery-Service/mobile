@@ -1,8 +1,13 @@
 package com.swa.swamobileteam.transportApi.deliveries;
 
 import com.swa.swamobileteam.data.deliveries.Address;
+import com.swa.swamobileteam.data.deliveries.DeliveryOrderStatus;
 import com.swa.swamobileteam.data.deliveries.DeliveryPeriod;
 import com.swa.swamobileteam.data.deliveries.HumanContacts;
+import com.swa.swamobileteam.data.deliveries.ParcelInfo;
+import com.swa.swamobileteam.data.deliveries.User;
+
+import java.util.List;
 
 /**
  * Model which describes while order
@@ -11,11 +16,11 @@ public class DeliveryOrderResponse {
     /**
      * Customer first and last name, phone number
      */
-    private HumanContacts customerInfo;
+    private User customerInfo;
     /**
      * Status of the order
      */
-    private Status status;
+    private DeliveryOrderStatus deliveryStatus;
     /**
      * Description of the order - additional info
      */
@@ -23,7 +28,11 @@ public class DeliveryOrderResponse {
     /**
      * Address in standard format: String representation and Location
      */
+    // TODO: remove
     private Address address;
+
+    private Address addressTo;
+    private Address addressFrom;
     /**
      * Priority of the order
      */
@@ -37,12 +46,13 @@ public class DeliveryOrderResponse {
      */
     private DeliveryPeriod deliveryPeriod;
 
+    /**
+     * Information about parcels being delivered.
+     */
+    private List<ParcelInfo> parcelsInfo;
+
     public DeliveryPeriod getDeliveryPeriod() {
         return deliveryPeriod;
-    }
-
-    public void setDeliveryPeriod(DeliveryPeriod deliveryPeriod) {
-        this.deliveryPeriod = deliveryPeriod;
     }
 
     public String getId() {
@@ -61,13 +71,23 @@ public class DeliveryOrderResponse {
         return description;
     }
 
-    public Status getStatus() {
-        return status;
+    public DeliveryOrderStatus getDeliveryStatus() {
+        return deliveryStatus;
     }
 
-    public HumanContacts getCustomerInfo() {
+    public User getCustomerInfo() {
         return customerInfo;
     }
 
-    public enum Status { in_process, pending, finished }
+    public Address getAddressTo() {
+        return addressTo;
+    }
+
+    public Address getAddressFrom() {
+        return addressFrom;
+    }
+
+    public List<ParcelInfo> getParcelsInfo() {
+        return parcelsInfo;
+    }
 }

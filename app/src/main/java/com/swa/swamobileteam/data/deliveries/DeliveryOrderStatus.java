@@ -10,7 +10,7 @@ public enum DeliveryOrderStatus {
      * Order that was marked as being in process by the driver.
      * For such orders, time is being tracked on the backend.
      */
-    @SerializedName("in_process")
+    @SerializedName("in_progress")
     IN_PROCESS,
 
     /**

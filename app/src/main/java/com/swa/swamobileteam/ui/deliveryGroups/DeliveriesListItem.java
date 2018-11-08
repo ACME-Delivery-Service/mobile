@@ -77,4 +77,16 @@ public class DeliveriesListItem {
     public Boolean getInProgress() {
         return isInProgress;
     }
+
+    public DeliveryOrderStatus getDeliveryStatus() {
+        return deliveryStatus;
+    }
+
+    public Address getAddressTo() {
+        return addressTo;
+    }
+
+    public Address getAddressFrom() {
+        return addressFrom;
+    }
 }

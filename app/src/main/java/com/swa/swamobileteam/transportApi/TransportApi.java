@@ -1,9 +1,9 @@
 package com.swa.swamobileteam.transportApi;
 
 import com.swa.swamobileteam.data.deliveries.Location;
+import com.swa.swamobileteam.data.deliveries.User;
 import com.swa.swamobileteam.transportApi.authentication.LoginResponse;
 import com.swa.swamobileteam.transportApi.authentication.LoginRequestParams;
-import com.swa.swamobileteam.transportApi.controlOperator.ControlOperatorResponse;
 import com.swa.swamobileteam.transportApi.deliveries.DeliveryOrderResponse;
 import com.swa.swamobileteam.transportApi.deliveries.DeliveryScheduleResponse;
 
@@ -42,7 +42,7 @@ public interface TransportApi {
                                              @Header("Authorization") String token);
 
     @GET("driver/co_contact")
-    Single<ControlOperatorResponse> getControlOperatorContact(@Header("Authorization") String token);
+    Single<User> getControlOperatorContact(@Header("Authorization") String token);
 
     @POST("driver/location")
     Completable sendLocation(@Body Location location, @Header("Authorization") String token);
