@@ -2,36 +2,52 @@ package com.swa.swamobileteam.data.deliveries;
 
 import android.support.annotation.NonNull;
 
+import com.swa.swamobileteam.transportApi.TransportApiClient;
 import com.swa.swamobileteam.ui.deliveryGroups.DeliveriesListItem;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
 
-public interface InProgressDeliveriesRepository {
+public class InProgressDeliveriesRepository extends AbstractDeliveriesListRepository {
+    public InProgressDeliveriesRepository(TransportApiClient apiClient) {
+        super(apiClient);
+    }
 
-    /**
-     * Marks the desired delivery as being in progress.
-     * @param deliveryID identifier of the delivery.
-     */
-    Completable markDeliveryAsInProgress(@NonNull String deliveryID);
+    @Override
+    public Single<Integer> refresh(@NonNull String token) {
+        return apiClient.getInProgress(20, 0, token).flatMap(deliveryScheduleResponse -> {
+            totalCount = deliveryScheduleResponse.getTotalCount();
 
-    /**
-     * Refreshes list of deliveries in progress
-     */
-    Single<Integer> refresh();
+            deliveriesListItems = new ArrayList<>();
+            deliveriesListItems.addAll(deliveryScheduleResponse.getResults());
 
-    /**
-     * Returns delivery item given its index
-     * @param index of delivery item
-     * @return delivery iten on given index
-     */
-    DeliveriesListItem getDeliveryListItem(int index);
+            return Single.just(deliveriesListItems.size());
+        });
+    }
 
-    /**
-     * Method loads deliveries from repository and returns their count
-     * @return
-     */
-    Single<Integer> loadDeliveries();
+    @Override
+    public Single<Integer> loadDeliveries(@NonNull String token) {
+        // Do not load more items than there are
+        if (deliveriesListItems.size() >= totalCount)
+            return Single.just(0);
+
+        // load more items
+        return apiClient.getInProgress(20, deliveriesListItems.size(), token).flatMap(deliveryScheduleResponse -> {
+            deliveriesListItems.addAll(deliveryScheduleResponse.getResults());
+
+            return Single.just(deliveryScheduleResponse.getResults().size());
+        });
+    }
+
+    @Override
+    public DeliveriesListItem getDeliveryListItem(int index) {
+        return deliveriesListItems.get(index);
+    }
 }
