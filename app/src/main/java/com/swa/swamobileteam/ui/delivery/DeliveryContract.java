@@ -1,6 +1,7 @@
 package com.swa.swamobileteam.ui.delivery;
 
 import android.net.Uri;
+import android.support.annotation.NonNull;
 
 import com.swa.swamobileteam.data.deliveries.DeliveryPeriod;
 import com.swa.swamobileteam.ui.base.BaseModel;
@@ -67,7 +68,7 @@ public interface DeliveryContract {
          * Retrieves derailed information about a delivery.
          * @param deliveryID Identifier of the delivery to retrieve info for.
          */
-        Single<DeliveryInfo> getDeliveryInfo(String deliveryID);
+        Single<DeliveryInfo> getDeliveryInfo(int deliveryID, @NonNull String token);
 
         /**
          * Calculates how much time is left to finish the delivery in seconds.

@@ -1,11 +1,14 @@
 package com.swa.swamobileteam.transportApi;
 
+import com.swa.swamobileteam.data.deliveries.DeliveryOrderStatus;
 import com.swa.swamobileteam.data.deliveries.Location;
 import com.swa.swamobileteam.data.deliveries.User;
 import com.swa.swamobileteam.transportApi.authentication.LoginRequestParams;
 import com.swa.swamobileteam.transportApi.authentication.LoginResponse;
-import com.swa.swamobileteam.transportApi.deliveries.DeliveryOrderResponse;
 import com.swa.swamobileteam.transportApi.deliveries.DeliveryScheduleResponse;
+import com.swa.swamobileteam.ui.delivery.DeliveryInfo;
+
+import java.util.HashMap;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
@@ -34,12 +37,15 @@ public class TransportApiClient {
         return api.getInProgress(limit, offset, token);
     }
 
-    public Single<DeliveryOrderResponse> getDeliveryOrderInfo(int orderID, String token) {
+    public Single<DeliveryInfo> getDeliveryOrderInfo(int orderID, String token) {
         return api.getDeliveryOrderInfo(orderID, token);
     }
 
-    public Completable submitNewDeliveryOrderStatus(int orderID, String token) {
-        return api.submitNewDeliveryOrderStatus(orderID, token);
+    public Completable submitNewDeliveryOrderStatus(int orderID, DeliveryOrderStatus newStatus, String token) {
+        HashMap<String, DeliveryOrderStatus> statusBody = new HashMap<>();
+        statusBody.put("status", newStatus);
+
+        return api.submitNewDeliveryOrderStatus(orderID, statusBody, token);
     }
 
     public Single<User> getControlOperatorContact(String token) {

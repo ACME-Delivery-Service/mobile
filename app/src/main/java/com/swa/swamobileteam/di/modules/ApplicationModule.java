@@ -7,6 +7,13 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.swa.swamobileteam.AcmeApplication;
+import com.swa.swamobileteam.data.authentication.UserAuthenticationRepository;
+import com.swa.swamobileteam.data.authentication.UserAuthenticationRepositoryImpl;
+import com.swa.swamobileteam.data.deliveries.DeliveryDetailsRepository;
+import com.swa.swamobileteam.data.deliveries.DeliveryDetailsRepositoryImpl;
+import com.swa.swamobileteam.data.deliveries.DeliveriesListRepository;
+import com.swa.swamobileteam.data.deliveries.DeliveryScheduleRepository;
+import com.swa.swamobileteam.data.deliveries.InProgressDeliveriesRepository;
 import com.swa.swamobileteam.di.AppScope;
 import com.swa.swamobileteam.transportApi.TransportApiClient;
 import com.swa.swamobileteam.utils.constants.AuthorizationConstants;
@@ -91,6 +98,30 @@ public class ApplicationModule {
     @Provides
     public Encrypter provideEncrypter() {
         return new Encrypter();
+    }
+
+    @AppScope
+    @Provides
+    public DeliveryDetailsRepository provideDeliveryDetailsReposory(TransportApiClient apiClient) {
+        return new DeliveryDetailsRepositoryImpl(apiClient);
+    }
+
+    @AppScope
+    @Provides
+    public DeliveriesListRepository provideDeliveryScheduleReposory(TransportApiClient apiClient) {
+        return new DeliveryScheduleRepository(apiClient);
+    }
+
+    @AppScope
+    @Provides
+    public DeliveriesListRepository provideInProgressDeliveriesReposory(TransportApiClient apiClient) {
+        return new InProgressDeliveriesRepository(apiClient);
+    }
+
+    @AppScope
+    @Provides
+    public UserAuthenticationRepository provideUserAuthenticationReposory(TransportApiClient apiClient, SharedPreferences preferences) {
+        return new UserAuthenticationRepositoryImpl(apiClient, preferences);
     }
 
     @Module

@@ -3,6 +3,7 @@ package com.swa.swamobileteam.ui.deliveryGroups;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.swa.swamobileteam.data.deliveries.DeliveryOrderStatus;
 import com.swa.swamobileteam.data.deliveries.Location;
 import com.swa.swamobileteam.ui.base.BaseModel;
 import com.swa.swamobileteam.ui.base.BasePresenter;
@@ -84,7 +85,7 @@ public interface DeliveryGroupsContract {
          * Marks the desired delivery as being in progress.
          * @param deliveryID identifier of the delivery.
          */
-        Completable markDeliveryAsInProgress(@NonNull String deliveryID);
+        Completable updateDeliveryOrderStatus(@NonNull int deliveryID, @NonNull DeliveryOrderStatus newStatus, @NonNull String token);
 
         /**
          * Returns minimum the time (in seconds) required to drive to given destination.
@@ -95,7 +96,7 @@ public interface DeliveryGroupsContract {
         /**
          * Refreshes list of scheduled deliveries
          */
-        Single<Integer> refreshDeliveries(DeliveryType type);
+        Single<Integer> refreshDeliveries(DeliveryType type, @NonNull String token);
 
         /**
          * Returns delivery item given its index
@@ -108,7 +109,7 @@ public interface DeliveryGroupsContract {
          * Method loads deliveries from repository and returns their count
          * @return
          */
-        Single<Integer> loadDeliveries(DeliveryType type);
+        Single<Integer> loadDeliveries(DeliveryType type, @NonNull String token);
     }
 
     interface DeliveryView extends BaseView{

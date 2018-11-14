@@ -11,8 +11,8 @@ public class AuthorizationModel implements AuthorizationContract.Model {
     private UserAuthenticationRepository authRepository;
 
     @Inject
-    public AuthorizationModel() {
-        this.authRepository = new UserAuthenticationRepositoryImpl();
+    public AuthorizationModel(UserAuthenticationRepository userAuthenticationRepository) {
+        this.authRepository = userAuthenticationRepository;
     }
 
     @Override

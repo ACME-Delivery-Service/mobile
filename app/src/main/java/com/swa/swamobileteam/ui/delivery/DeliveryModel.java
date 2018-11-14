@@ -1,8 +1,11 @@
 package com.swa.swamobileteam.ui.delivery;
 
+import android.support.annotation.NonNull;
+
 import com.swa.swamobileteam.data.deliveries.DeliveryDetailsRepository;
 import com.swa.swamobileteam.data.deliveries.DeliveryDetailsRepositoryImpl;
 import com.swa.swamobileteam.data.deliveries.DeliveryPeriod;
+import com.swa.swamobileteam.transportApi.TransportApiClient;
 
 import javax.inject.Inject;
 
@@ -12,13 +15,13 @@ public class DeliveryModel implements DeliveryContract.Model {
     private DeliveryDetailsRepository deliveryDetailsRepository;
 
     @Inject
-    public DeliveryModel() {
-        this.deliveryDetailsRepository = new DeliveryDetailsRepositoryImpl();
+    public DeliveryModel(DeliveryDetailsRepository repository) {
+        this.deliveryDetailsRepository = repository;
     }
 
     @Override
-    public Single<DeliveryInfo> getDeliveryInfo(String deliveryID) {
-        return deliveryDetailsRepository.getDeliveryInfo(deliveryID);
+    public Single<DeliveryInfo> getDeliveryInfo(int deliveryID, @NonNull String token) {
+        return deliveryDetailsRepository.getDeliveryInfo(deliveryID, token);
     }
 
     @Override
