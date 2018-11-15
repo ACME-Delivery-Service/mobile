@@ -30,4 +30,9 @@ abstract class AbstractDeliveriesListRepository implements DeliveriesListReposit
     public DeliveriesListItem getDeliveryListItem(int index) {
         return deliveriesListItems.get(index);
     }
+
+    @Override
+    public void updateItemETA(Double minutes, int index) {
+        deliveriesListItems.get(index).setEta(minutes);
+    }
 }

@@ -6,13 +6,17 @@ import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.swa.swamobileteam.data.deliveries.Address;
+import com.swa.swamobileteam.data.deliveries.DeliveryOrderStatus;
 import com.swa.swamobileteam.data.deliveries.DeliveryPeriod;
+import com.swa.swamobileteam.data.deliveries.HumanContacts;
 import com.swa.swamobileteam.ui.base.BaseModel;
 import com.swa.swamobileteam.ui.base.BasePresenter;
 import com.swa.swamobileteam.ui.base.BaseView;
 import com.swa.swamobileteam.ui.delivery.view.ParcelView;
 import com.swa.swamobileteam.ui.deliveryGroups.DeliveryGroupsContract;
 
+import io.reactivex.Completable;
 import io.reactivex.Single;
 
 public interface DeliveryContract {
@@ -36,6 +40,8 @@ public interface DeliveryContract {
 
         void setTimeRemaining(long time);
 
+        void setActionButton(DeliveryOrderStatus deliveryOrderStatus);
+
         void navigateToMap(Uri coordsUri);
 
         void callPhone(String phone);
@@ -45,6 +51,18 @@ public interface DeliveryContract {
         ParcelView createParcelView();
 
         Resources getResource();
+
+        void hideProgressBar();
+
+        void navigateToFinishDeliveryActivity(int id, String client, String address);
+
+        void navigateToMainActivity();
+
+        void showLoadingDialog();
+
+        void hideLoadingDialog();
+
+        void showLoadingError();
     }
 
     interface Presenter extends BasePresenter<DeliveryContract.View> {
@@ -55,6 +73,10 @@ public interface DeliveryContract {
         void callClient();
 
         void callOperator();
+
+        void onAction();
+
+        int getId();
     }
 
     interface Model extends BaseModel {
@@ -69,5 +91,15 @@ public interface DeliveryContract {
          * @param period Delivery period of the delivery.
          */
         Double getRemainingTime(DeliveryPeriod period);
+
+        Completable markAsCurrent(String token);
+
+        DeliveryOrderStatus getStatus();
+
+        int getId();
+
+        HumanContacts getClientInfo();
+
+        Address getFinalAddress();
     }
 }

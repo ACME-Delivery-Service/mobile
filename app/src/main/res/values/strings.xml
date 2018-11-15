@@ -25,14 +25,16 @@
     <string name="text_mark_as_current">Mark as current task</string>
     <string name="text_details">Details</string>
     <string name="text_estimated_time">Time remaining: %1$s min</string>
-    <string name="text_loading_error">An error occurred while loading, please retry later</string>
+    <string name="text_loading_error">An error occurred while loading, please try again later</string>
 
     <!-- Delivery -->
     <string name="text_time_remaining">%1$d mins remaining</string>
     <string name="text_parcel_name">Name: %s</string>
-    <string name="text_weight">Weight: %d kgs</string>
-    <string name="text_dimensions">Dimensions: %1$d cm * %2$d cm * %3$d cm</string>
+    <string name="text_weight">Weight: %.2f kgs</string>
+    <string name="text_dimensions">Dimensions: %1$.2f cm * %2$.2f cm * %3$.2f cm</string>
     <string name="text_to_map">Open map</string>
     <string name="text_parcel_details_id">ID: %s</string>
+    <string name="text_success_mark">Delivery %d was marked as current</string>
+    <string name="text_delivery_finish">Delivery %d is finished</string>
 
 </resources>

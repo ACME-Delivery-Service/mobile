@@ -8,6 +8,8 @@ import com.swa.swamobileteam.ui.delivery.DeliveryContract;
 import com.swa.swamobileteam.ui.delivery.DeliveryModel;
 import com.swa.swamobileteam.ui.deliveryGroups.DeliveryGroupsContract;
 import com.swa.swamobileteam.ui.deliveryGroups.DeliveryGroupsModel;
+import com.swa.swamobileteam.ui.finishDelivery.FinishDeliveryContract;
+import com.swa.swamobileteam.ui.finishDelivery.FinishDeliveryModel;
 
 import dagger.Binds;
 import dagger.Module;
@@ -26,5 +28,9 @@ public abstract class ModelBindingModule {
     @Binds
     @ActivityScope
     public abstract DeliveryContract.Model bindDeliveryModel(DeliveryModel model);
+
+    @Binds
+    @ActivityScope
+    public abstract FinishDeliveryContract.Model bindFinishDeliveryModel(FinishDeliveryModel model);
 
 }

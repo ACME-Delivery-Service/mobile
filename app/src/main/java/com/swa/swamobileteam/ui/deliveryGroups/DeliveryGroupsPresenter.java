@@ -25,7 +25,6 @@ public class DeliveryGroupsPresenter implements DeliveryGroupsContract.Presenter
     private CredentialsManager credentialsManager;
     private CompositeDisposable disposable = new CompositeDisposable();
     private int deliveriesCount = 0;
-    private boolean isRefresh = false;
 
     @Inject
     DeliveryGroupsPresenter(DeliveryGroupsContract.Model model,
@@ -121,9 +120,21 @@ public class DeliveryGroupsPresenter implements DeliveryGroupsContract.Presenter
                                 this.deliveriesCount = deliveriesCount;
                                 view.endRefreshment();
                                 view.notifyDataSetChanged();
+                            },
+                            error -> {
+                                view.showLoadingError();
+                                view.endRefreshment();
                             }
                     )
             );
+        }
+    }
+
+    @Override
+    public void updateItemETA(Double seconds, int index) {
+        if (view != null) {
+            model.updateItemETA(Math.floor(seconds / 60), index, view.getType());
+            view.notifyItemChanged(index);
         }
     }
 

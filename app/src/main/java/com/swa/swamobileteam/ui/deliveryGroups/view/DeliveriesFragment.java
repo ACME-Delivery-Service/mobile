@@ -140,6 +140,11 @@ public class DeliveriesFragment extends Fragment implements DeliveryGroupsContra
         Toast.makeText(getContext(), getString(R.string.text_loading_error), Toast.LENGTH_LONG).show();
     }
 
+    @Override
+    public void notifyItemChanged(int index) {
+        adapter.notifyItemChanged(index);
+    }
+
     private void setSwipeRefreshLayout() {
         if (swipeRefreshLayout != null) {
             swipeRefreshLayout.setOnRefreshListener(() -> presenter.pullToRefresh());

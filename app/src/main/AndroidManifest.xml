@@ -14,6 +14,11 @@
         android:theme="@style/AppTheme">
         <activity android:name=".ui.authorization.AuthorizationActivity"
             android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".ui.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateUnchanged|adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,13 +26,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateUnchanged|adjustPan"/>
-        <activity
             android:name=".ui.delivery.DeliveryActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateUnchanged|adjustPan"/>
+        <activity android:name=".ui.finishDelivery.FinishDeliveryActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateUnchanged|adjustPan" />
     </application>
 
 </manifest>

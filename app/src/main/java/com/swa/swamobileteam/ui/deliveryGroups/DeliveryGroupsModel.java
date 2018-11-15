@@ -56,6 +56,11 @@ public class DeliveryGroupsModel implements DeliveryGroupsContract.Model {
         return getRepositoryForType(type).loadDeliveries(token);
     }
 
+    @Override
+    public void updateItemETA(Double minutes, int index, DeliveryType type) {
+        getRepositoryForType(type).updateItemETA(minutes, index);
+    }
+
     private DeliveriesListRepository getRepositoryForType(DeliveryType type) {
         if (type.equals(DeliveryType.New)) {
             return scheduleRepository;

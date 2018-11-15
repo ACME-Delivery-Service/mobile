@@ -55,6 +55,8 @@ public interface DeliveryGroupsContract {
         void navigateToDelivery(int deliveryId);
 
         void showLoadingError();
+
+        void notifyItemChanged(int index);
     }
     interface Presenter extends BasePresenter<View> {
         /**
@@ -79,6 +81,13 @@ public interface DeliveryGroupsContract {
          * Refresh data
          */
         void pullToRefresh();
+
+        /**
+         * Updates ETA of the particular item
+         * @param seconds ETA
+         * @param index index of the item
+         */
+        void updateItemETA(Double seconds, int index);
     }
 
     interface Model extends BaseModel {
@@ -112,6 +121,8 @@ public interface DeliveryGroupsContract {
          * @return
          */
         Single<Integer> loadDeliveries(DeliveryType type, @NonNull String token);
+
+        void updateItemETA(Double seconds, int index, DeliveryType type);
     }
 
     interface DeliveryView extends BaseView{

@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 
 import com.swa.swamobileteam.R;
+import com.swa.swamobileteam.data.deliveries.DeliveryOrderStatus;
 import com.swa.swamobileteam.data.deliveries.Location;
 import com.swa.swamobileteam.data.deliveries.ParcelInfo;
 import com.swa.swamobileteam.data.deliveries.ParcelInfo.Dimensions;
@@ -37,6 +38,23 @@ public class DeliveryPresenter implements DeliveryContract.Presenter{
     DeliveryPresenter(DeliveryContract.Model model, CredentialsManager credentialsManager) {
         this.model = model;
         this.credentialsManager = credentialsManager;
+    }
+
+    @Override
+    public void attachView(DeliveryContract.View view, boolean isNew) {
+        this.view = view;
+    }
+
+    @Override
+    public void detachView() {
+        this.view = null;
+    }
+
+    @Override
+    public void stop() {
+        if (disposable != null) {
+            disposable.clear();
+        }
     }
 
     @Override
@@ -77,21 +95,42 @@ public class DeliveryPresenter implements DeliveryContract.Presenter{
     }
 
     @Override
-    public void attachView(DeliveryContract.View view, boolean isNew) {
-        this.view = view;
+    public void onAction() {
+        if (view != null) {
+            if (model.getStatus().equals(DeliveryOrderStatus.PENDING)) {
+                view.showLoadingDialog();
+                disposable.add(model.markAsCurrent(credentialsManager.getApiAuthenticationToken())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                () -> {
+                                    view.hideLoadingDialog();
+                                    view.navigateToMainActivity();
+                                },
+                                error -> {
+                                    view.hideLoadingDialog();
+                                    view.showLoadingError();
+                                }
+                        ));
+            }
+            else {
+                String client = model.getClientInfo().getFirstName() + " " + model.getClientInfo().getLastName();
+                String destination = model.getFinalAddress().getAddress();
+                view.navigateToFinishDeliveryActivity(model.getId(), client, destination);
+            }
+        }
+
     }
 
     @Override
-    public void detachView() {
-        this.view = null;
-    }
-
-    @Override
-    public void stop() {
+    public int getId() {
+        return model.getId();
     }
 
     private void setView(DeliveryInfo deliveryInfo) {
         if (view != null) {
+            view.hideProgressBar();
+
             //Set time period
             Date start = deliveryInfo.getDeliveryPeriod().getStart();
             Date end = deliveryInfo.getDeliveryPeriod().getEnd();
@@ -126,6 +165,7 @@ public class DeliveryPresenter implements DeliveryContract.Presenter{
                 this.view.addParcel(parcelView.getView());
             }
 
+            view.setActionButton(deliveryInfo.getDeliveryStatus());
         }
     }
 

@@ -30,9 +30,14 @@ public class DeliveriesListItem {
     private Address addressTo;
     private Address addressFrom;
 
-    public DeliveriesListItem(int id,DeliveryPeriod deliveryPeriod) {
+    private Double eta;
+
+    public DeliveriesListItem(int id, DeliveryPeriod deliveryPeriod, DeliveryOrderStatus status, Address addressTo, Address addressFrom) {
         this.id = id;
         this.deliveryPeriod = deliveryPeriod;
+        this.deliveryStatus = status;
+        this.addressTo = addressTo;
+        this.addressFrom = addressFrom;
     }
 
 
@@ -54,5 +59,9 @@ public class DeliveriesListItem {
 
     public Address getAddressFrom() {
         return addressFrom;
+    }
+
+    public void setEta(Double eta) {
+        this.eta = eta;
     }
 }
