@@ -1,6 +1,8 @@
 package com.swa.swamobileteam.ui.deliveryGroups;
 
+import com.swa.swamobileteam.data.deliveries.DeliveryOrderStatus;
 import com.swa.swamobileteam.data.deliveries.Location;
+import com.swa.swamobileteam.transportApi.CredentialsManager;
 import com.swa.swamobileteam.ui.deliveryGroups.view.DeliveryViewHolder;
 import com.swa.swamobileteam.utils.DeliveryType;
 
@@ -20,13 +22,16 @@ public class DeliveryGroupsPresenter implements DeliveryGroupsContract.Presenter
 
     private DeliveryGroupsContract.View view;
     private DeliveryGroupsContract.Model model;
+    private CredentialsManager credentialsManager;
     private CompositeDisposable disposable = new CompositeDisposable();
     private int deliveriesCount = 0;
     private boolean isRefresh = false;
 
     @Inject
-    DeliveryGroupsPresenter(DeliveryGroupsContract.Model model) {
+    DeliveryGroupsPresenter(DeliveryGroupsContract.Model model,
+                            CredentialsManager credentialsManager) {
         this.model = model;
+        this.credentialsManager = credentialsManager;
     }
 
     @Override
@@ -66,10 +71,14 @@ public class DeliveryGroupsPresenter implements DeliveryGroupsContract.Presenter
             //Converting time
             deliveryView.setTimePeriod(getTime(start) + " - " + getTime(end));
             deliveryView.setParcelId(delivery.getId());
-            deliveryView.setAddress(delivery.getAddress().getAddress());
-            deliveryView.setWeight(delivery.getWeight());
-            deliveryView.setActionButtonText(delivery.getInProgress());
-            setEstimatedTime(deliveryView, delivery.getAddress().getLocation());
+            deliveryView.setAddress(delivery.getAddressTo().getAddress());
+            if (view.getType().equals(DeliveryType.New)) {
+                deliveryView.setActionButtonText(false);
+            }
+            else {
+                deliveryView.setActionButtonText(true);
+            }
+            setEstimatedTime(deliveryView, delivery.getAddressTo().getLocation());
         }
     }
 
@@ -81,7 +90,7 @@ public class DeliveryGroupsPresenter implements DeliveryGroupsContract.Presenter
     @Override
     public void loadDeliveries() {
         if (view != null) {
-            disposable.add(model.loadDeliveries(view.getType())
+            disposable.add(model.loadDeliveries(view.getType(), credentialsManager.getApiAuthenticationToken())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
@@ -104,7 +113,7 @@ public class DeliveryGroupsPresenter implements DeliveryGroupsContract.Presenter
     @Override
     public void pullToRefresh() {
         if (view != null) {
-            disposable.add(model.refreshDeliveries(view.getType())
+            disposable.add(model.refreshDeliveries(view.getType(), credentialsManager.getApiAuthenticationToken())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
@@ -185,14 +194,34 @@ public class DeliveryGroupsPresenter implements DeliveryGroupsContract.Presenter
     }
 
     @Override
-    public void onDetails(String deliveryId) {
+    public void onDetails(int deliveryId) {
         if (view != null) {
             view.navigateToDelivery(deliveryId);
         }
     }
 
     @Override
-    public void onAction(String deliveryId) {
-
+    public void onAction(int deliveryId) {
+        if (view.getType().equals(DeliveryType.New)) {
+            disposable.add(model.updateDeliveryOrderStatus(
+                    deliveryId, DeliveryOrderStatus.IN_PROCESS, credentialsManager.getApiAuthenticationToken())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                            () -> view.notifyDataSetChanged(),
+                            error -> view.showLoadingError()
+                    )
+            );
+        } else {
+            disposable.add(model.updateDeliveryOrderStatus(
+                    deliveryId, DeliveryOrderStatus.FINISHED, credentialsManager.getApiAuthenticationToken())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                            () -> view.notifyDataSetChanged(),
+                            error -> view.showLoadingError()
+                    )
+            );
+        }
     }
 }

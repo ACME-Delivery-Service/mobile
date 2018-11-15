@@ -1,10 +1,14 @@
 package com.swa.swamobileteam.ui.delivery;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 
+import com.swa.swamobileteam.R;
 import com.swa.swamobileteam.data.deliveries.Location;
 import com.swa.swamobileteam.data.deliveries.ParcelInfo;
 import com.swa.swamobileteam.data.deliveries.ParcelInfo.Dimensions;
+import com.swa.swamobileteam.transportApi.CredentialsManager;
+import com.swa.swamobileteam.ui.delivery.view.ParcelView;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -24,24 +28,26 @@ public class DeliveryPresenter implements DeliveryContract.Presenter{
     @Nullable
     private DeliveryContract.View view;
     private DeliveryContract.Model model;
+    private CredentialsManager credentialsManager;
     private CompositeDisposable disposable = new CompositeDisposable();
     private String phone;
     private Location location;
 
     @Inject
-    DeliveryPresenter(DeliveryContract.Model model) {
+    DeliveryPresenter(DeliveryContract.Model model, CredentialsManager credentialsManager) {
         this.model = model;
+        this.credentialsManager = credentialsManager;
     }
 
     @Override
-    public void getInfo(){
+    public void getInfo(int deliveryId){
         if (view != null) {
-            disposable.add(model.getDeliveryInfo("")
+            disposable.add(model.getDeliveryInfo(deliveryId, credentialsManager.getApiAuthenticationToken())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
                             this::setView,
-                            error -> getInfo()
+                            error -> getInfo(deliveryId)
                     )
             );
         }
@@ -95,21 +101,30 @@ public class DeliveryPresenter implements DeliveryContract.Presenter{
             view.setTimeRemaining(Math.round(model.getRemainingTime(deliveryInfo.getDeliveryPeriod())));
 
             //Set client info
-            view.setName(deliveryInfo.getClientInfo().getFirstName() + " "
-                    + deliveryInfo.getClientInfo().getLastName());
-            view.setPhone(deliveryInfo.getClientInfo().getPhoneNumber());
-            this.phone = deliveryInfo.getClientInfo().getPhoneNumber();
+            view.setName(deliveryInfo.getCustomerInfo().getContacts().getFirstName() + " "
+                    + deliveryInfo.getCustomerInfo().getContacts().getLastName());
+            view.setPhone(deliveryInfo.getCustomerInfo().getContacts().getPhoneNumber());
+            this.phone = deliveryInfo.getCustomerInfo().getContacts().getPhoneNumber();
 
             //Set address
-            view.setAddress(deliveryInfo.getAddress().getAddress());
-            this.location = deliveryInfo.getAddress().getLocation();
+            view.setAddress(deliveryInfo.getAddressTo().getAddress());
+            this.location = deliveryInfo.getAddressTo().getLocation();
 
             //Set PARCEL info
-            view.setParcelName("X-box");
-            view.setParcelId(deliveryInfo.getId());
-            view.setWeight(deliveryInfo.getParcelInfo().getWeight());
-            Dimensions dimensions = deliveryInfo.getParcelInfo().getDimensions();
-            view.setDimensions(dimensions.getX(), dimensions.getY(), dimensions.getZ());
+            for(ParcelInfo parcel : deliveryInfo.getParcelsInfo()) {
+                ParcelView parcelView = this.view.createParcelView();
+                Resources resources = view.getResource();
+                parcelView.setName(resources.getString(
+                        R.string.text_parcel_name, parcel.getDescription()));
+                parcelView.setDimensions(resources.getString(
+                        R.string.text_dimensions, parcel.getDimensions().getX(), parcel.getDimensions().getY(), parcel.getDimensions().getZ()
+                ));
+                parcelView.setWeight(resources.getString(
+                        R.string.text_weight, parcel.getWeight()));
+                parcelView.setId(resources.getString(
+                        R.string.text_parcel_details_id, parcel.getId()));
+                this.view.addParcel(parcelView.getView());
+            }
 
         }
     }

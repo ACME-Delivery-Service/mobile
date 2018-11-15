@@ -36,6 +36,7 @@ public class AuthorizationActivity extends AppCompatActivity implements Authoriz
     @BindView(R.id.text_password_wrapper)
     TextInputLayout passwordWrapper;
 
+    private AlertDialog dialog;
 
     @Inject
     AuthorizationContract.Presenter presenter;
@@ -106,25 +107,19 @@ public class AuthorizationActivity extends AppCompatActivity implements Authoriz
 
     @Override
     public void showLoadingDialog() {
-        AlertDialog dialog = new AlertDialog.Builder(this)
+        dialog = new AlertDialog.Builder(this)
                 .setView(R.layout.item_loading_dialog)
                 .setCancelable(false)
                 .create();
         dialog.show();
-        //TODO only to show the auto login
-        new CountDownTimer(1500, 1000) {
 
-            @Override
-            public void onTick(long millisUntilFinished) {
-                //nothing
-            }
+    }
 
-            @Override
-            public void onFinish() {
-                dialog.dismiss();
-                successLogin();
-            }
-        }.start();
+    @Override
+    public void hideLoadingDialog() {
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
     }
 
     @OnClick(R.id.button_sign_in)

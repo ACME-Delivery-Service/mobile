@@ -20,7 +20,6 @@ public class CredentialsManager {
         preferences.edit().putString(PERF_TOKEN_KEY, token).apply();
     }
 
-    @Nullable
     public String getApiAuthenticationToken() {
         return preferences.getString(PERF_TOKEN_KEY, null);
     }

@@ -2,15 +2,22 @@ package com.swa.swamobileteam.ui.delivery;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.swa.swamobileteam.R;
+import com.swa.swamobileteam.ui.delivery.view.ParcelView;
 
 import javax.inject.Inject;
 
@@ -29,25 +36,19 @@ public class DeliveryActivity extends AppCompatActivity implements DeliveryContr
     TextView time;
     @BindView(R.id.text_time_remaining)
     TextView timeRemaining;
-    @BindView(R.id.nameTextView)
-    TextView name;
+    @BindView(R.id.text_client_name)
+    TextView clientName;
     @BindView(R.id.phoneTextView)
     TextView phone;
     @BindView(R.id.addressTextView)
     TextView address;
-    @BindView(R.id.parcelNameTextView)
-    TextView parcelName;
-    @BindView(R.id.weightTextView)
-    TextView weight;
-    @BindView(R.id.dimensionsTextView)
-    TextView dimensions;
-    @BindView(R.id.parcelIDTextView)
-    TextView deliveryID;
+    @BindView(R.id.list_parcels)
+    LinearLayout parcels;
 
     @Inject
     DeliveryContract.Presenter presenter;
 
-    public static Intent newInstance(Context context, String deliveryId) {
+    public static Intent newInstance(Context context, int deliveryId) {
         Intent intent = new Intent(context, DeliveryActivity.class);
         intent.putExtra(DELIVERY_ID, deliveryId);
         return intent;
@@ -61,7 +62,7 @@ public class DeliveryActivity extends AppCompatActivity implements DeliveryContr
         AndroidInjection.inject(this);
         setToolbar();
         presenter.attachView(this, true);
-        presenter.getInfo();
+        presenter.getInfo(getIntent().getExtras().getInt(DELIVERY_ID));
     }
 
     @Override
@@ -78,38 +79,18 @@ public class DeliveryActivity extends AppCompatActivity implements DeliveryContr
     }
 
     @Override
-    public void setParcelId(String id) {
-        deliveryID.setText(id);
-    }
-
-    @Override
     public void setAddress(String address) {
         this.address.setText(address);
     }
 
     @Override
-    public void setWeight(Double weight) {
-        this.weight.setText(String.valueOf(weight));
-    }
-
-    @Override
     public void setName(String name) {
-        this.name.setText(name);
+        this.clientName.setText(name);
     }
 
     @Override
     public void setPhone(String phone) {
         this.phone.setText(phone);
-    }
-
-    @Override
-    public void setParcelName(String parcelName) {
-        this.parcelName.setText(parcelName);
-    }
-
-    @Override
-    public void setDimensions(Double x, Double y, Double z) {
-        this.dimensions.setText(getString(R.string.text_dimensions, x, y, z));
     }
 
     @Override
@@ -128,6 +109,21 @@ public class DeliveryActivity extends AppCompatActivity implements DeliveryContr
     public void callPhone(String phone) {
         Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phone, null));
         startActivity(intent);
+    }
+
+    @Override
+    public void addParcel(View parcel) {
+        parcels.addView(parcel);
+    }
+
+    @Override
+    public ParcelView createParcelView() {
+        return new ParcelView(getLayoutInflater());
+    }
+
+    @Override
+    public Resources getResource() {
+        return getResources();
     }
 
     @OnClick(R.id.image_button_call)
@@ -150,4 +146,5 @@ public class DeliveryActivity extends AppCompatActivity implements DeliveryContr
         toolbar.setNavigationIcon(ContextCompat.getDrawable(this, R.drawable.navigation_back));
         toolbar.setNavigationOnClickListener((v) -> onBackPressed());
     }
+
 }

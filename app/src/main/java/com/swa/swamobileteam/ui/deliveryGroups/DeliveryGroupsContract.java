@@ -52,7 +52,9 @@ public interface DeliveryGroupsContract {
         /**
          * Navigate to the delivery details screen
          */
-        void navigateToDelivery(String deliveryId);
+        void navigateToDelivery(int deliveryId);
+
+        void showLoadingError();
     }
     interface Presenter extends BasePresenter<View> {
         /**
@@ -140,19 +142,13 @@ public interface DeliveryGroupsContract {
          * Sets PARCEL id of the delivery
          * @param id identifier of the delivery
          */
-        void setParcelId(String id);
+        void setParcelId(int id);
 
         /**
          * Sets address of the delivery
          * @param address address of the delivery
          */
         void setAddress(String address);
-
-        /**
-         * Sets weight of the delivery
-         * @param weight weight of the delivery
-         */
-        void setWeight(Double weight);
 
         /**
          * Sets the estimated time of the delivery

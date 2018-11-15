@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.swa.swamobileteam.R;
 import com.swa.swamobileteam.ui.delivery.DeliveryActivity;
@@ -130,8 +131,13 @@ public class DeliveriesFragment extends Fragment implements DeliveryGroupsContra
     }
 
     @Override
-    public void navigateToDelivery(String deliveryId) {
+    public void navigateToDelivery(int deliveryId) {
         startActivity(DeliveryActivity.newInstance(getContext(), deliveryId));
+    }
+
+    @Override
+    public void showLoadingError() {
+        Toast.makeText(getContext(), getString(R.string.text_loading_error), Toast.LENGTH_LONG).show();
     }
 
     private void setSwipeRefreshLayout() {

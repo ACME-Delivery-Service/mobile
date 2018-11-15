@@ -29,41 +29,6 @@ public class AuthorizationPresenter implements AuthorizationContract.Presenter {
     }
 
     @Override
-    public void login() {
-        if (view != null) {
-            String login = view.getLogin();
-            String password = view.getPassword();
-            if (login.isEmpty()) {
-                view.showNoLogin();
-            } else if (password.isEmpty()) {
-                view.showNoPassword();
-            } else {
-                disposable.add(model.authenticate(login, password)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(()->{
-                                        preferences.edit().putString(LOGIN, login).apply();
-                                        preferences.edit().putString(PASSWORD, password).apply();
-                                        view.successLogin();
-                                },
-                                (error) ->
-                                        view.showWrongLogin()
-                        ));
-            }
-        }
-    }
-
-    @Override
-    public void autoLogin() {
-        if (view != null) {
-            if (!preferences.getString(LOGIN, "").isEmpty() &&
-                    !preferences.getString(PASSWORD, "").isEmpty()) {
-                view.showLoadingDialog();
-            }
-        }
-    }
-
-    @Override
     public void attachView(AuthorizationContract.View view, boolean isNew) {
         this.view = view;
     }
@@ -75,6 +40,55 @@ public class AuthorizationPresenter implements AuthorizationContract.Presenter {
 
     @Override
     public void stop() {
+        if (disposable != null) {
+            disposable.clear();
+        }
+    }
 
+    @Override
+    public void login() {
+        if (view != null) {
+            String login = view.getLogin();
+            String password = view.getPassword();
+            if (login.isEmpty()) {
+                view.showNoLogin();
+            } else if (password.isEmpty()) {
+                view.showNoPassword();
+            } else {
+                makeLoginRequest(login, password);
+            }
+        }
+    }
+
+    @Override
+    public void autoLogin() {
+        if (view != null) {
+            if (!preferences.getString(LOGIN, "").isEmpty() &&
+                    !preferences.getString(PASSWORD, "").isEmpty()) {
+                makeLoginRequest(preferences.getString(LOGIN, ""), preferences.getString(PASSWORD, ""));
+            }
+        }
+    }
+
+    private void makeLoginRequest(String login, String password) {
+        if (view != null) {
+            view.showLoadingDialog();
+            disposable.add(model.authenticate(login, password)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                            () -> {
+                                view.hideLoadingDialog();
+                                preferences.edit().putString(LOGIN, login).apply();
+                                preferences.edit().putString(PASSWORD, password).apply();
+                                view.successLogin();
+                        },
+                            (error) -> {
+                                view.hideLoadingDialog();;
+                                view.showWrongLogin();
+                            }
+                    )
+            );
+        }
     }
 }
