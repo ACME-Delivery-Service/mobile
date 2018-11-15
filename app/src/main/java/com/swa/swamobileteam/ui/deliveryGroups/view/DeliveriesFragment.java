@@ -68,7 +68,7 @@ public class DeliveriesFragment extends Fragment implements DeliveryGroupsContra
         presenter.attachView(this, true);
         setRecyclerView();
         setSwipeRefreshLayout();
-        presenter.loadDeliveries();
+        presenter.pullToRefresh();
 
     }
 

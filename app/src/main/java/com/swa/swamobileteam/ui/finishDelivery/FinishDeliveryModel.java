@@ -24,6 +24,6 @@ public class FinishDeliveryModel implements FinishDeliveryContract.Model {
 
     @Override
     public Completable finishDelivery(int id) {
-        return repo.updateDeliveryOrderStatus(id, DeliveryOrderStatus.FINISHED, credentialsManager.getApiAuthenticationToken());
+        return repo.updateDeliveryOrderStatus(id, DeliveryOrderStatus.FINISHED, "Token "+credentialsManager.getApiAuthenticationToken());
     }
 }

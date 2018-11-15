@@ -53,7 +53,9 @@ public class DeliveryGroupsModel implements DeliveryGroupsContract.Model {
 
     @Override
     public Single<Integer> loadDeliveries(DeliveryType type, @NonNull String token) {
-        return getRepositoryForType(type).loadDeliveries(token);
+        StringBuilder builder = new StringBuilder("Token ");
+        builder.append(token);
+        return getRepositoryForType(type).loadDeliveries(builder.toString());
     }
 
     @Override

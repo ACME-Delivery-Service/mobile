@@ -99,7 +99,7 @@ public class DeliveryPresenter implements DeliveryContract.Presenter{
         if (view != null) {
             if (model.getStatus().equals(DeliveryOrderStatus.PENDING)) {
                 view.showLoadingDialog();
-                disposable.add(model.markAsCurrent(credentialsManager.getApiAuthenticationToken())
+                disposable.add(model.markAsCurrent("Token "+credentialsManager.getApiAuthenticationToken())
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
