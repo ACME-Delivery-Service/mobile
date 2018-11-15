@@ -1,7 +1,6 @@
 package com.swa.swamobileteam.ui.delivery;
 
 import com.swa.swamobileteam.data.deliveries.Address;
-import com.swa.swamobileteam.data.deliveries.ClientInfo;
 import com.swa.swamobileteam.data.deliveries.DeliveryOrderStatus;
 import com.swa.swamobileteam.data.deliveries.DeliveryPeriod;
 import com.swa.swamobileteam.data.deliveries.ParcelInfo;

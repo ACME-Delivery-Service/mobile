@@ -89,12 +89,14 @@ public class DeliveryGroupsPresenter implements DeliveryGroupsContract.Presenter
     @Override
     public void loadDeliveries() {
         if (view != null) {
-            disposable.add(model.loadDeliveries(view.getType(), credentialsManager.getApiAuthenticationToken())
+            Timber.d("here");
+            String token = "Token "+credentialsManager.getApiAuthenticationToken();
+            Timber.d(token);
+            disposable.add(model.loadDeliveries(view.getType(), token)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
                             deliveriesCount -> {
-                                Timber.d(String.valueOf(deliveriesCount));
                                 view.hideLoadingBar();
                                 if (deliveriesCount > 0) {
                                     this.deliveriesCount += deliveriesCount;
@@ -112,17 +114,22 @@ public class DeliveryGroupsPresenter implements DeliveryGroupsContract.Presenter
     @Override
     public void pullToRefresh() {
         if (view != null) {
-            disposable.add(model.refreshDeliveries(view.getType(), credentialsManager.getApiAuthenticationToken())
+            String token = "Token "+credentialsManager.getApiAuthenticationToken();
+            Timber.d(token);
+            disposable.add(model.refreshDeliveries(view.getType(), token)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
                             (deliveriesCount) -> {
                                 this.deliveriesCount = deliveriesCount;
                                 view.endRefreshment();
+                                view.hideLoadingBar();
                                 view.notifyDataSetChanged();
                             },
                             error -> {
+                                Timber.d(error);
                                 view.showLoadingError();
+                                view.hideLoadingBar();
                                 view.endRefreshment();
                             }
                     )
@@ -215,21 +222,21 @@ public class DeliveryGroupsPresenter implements DeliveryGroupsContract.Presenter
     public void onAction(int deliveryId) {
         if (view.getType().equals(DeliveryType.New)) {
             disposable.add(model.updateDeliveryOrderStatus(
-                    deliveryId, DeliveryOrderStatus.IN_PROCESS, credentialsManager.getApiAuthenticationToken())
+                    deliveryId, DeliveryOrderStatus.IN_PROCESS, "Token "+credentialsManager.getApiAuthenticationToken())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
-                            () -> view.notifyDataSetChanged(),
+                            () -> pullToRefresh(),
                             error -> view.showLoadingError()
                     )
             );
         } else {
             disposable.add(model.updateDeliveryOrderStatus(
-                    deliveryId, DeliveryOrderStatus.FINISHED, credentialsManager.getApiAuthenticationToken())
+                    deliveryId, DeliveryOrderStatus.FINISHED, "Token "+credentialsManager.getApiAuthenticationToken())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
-                            () -> view.notifyDataSetChanged(),
+                            () -> pullToRefresh(),
                             error -> view.showLoadingError()
                     )
             );

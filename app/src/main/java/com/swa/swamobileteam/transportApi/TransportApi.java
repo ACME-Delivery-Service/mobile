@@ -40,7 +40,7 @@ public interface TransportApi {
     Single<DeliveryInfo> getDeliveryOrderInfo(@Path("id") int orderID,
                                               @Header("Authorization") String token);
 
-    @POST("order/{id}/status")
+    @POST("order/{id}/delivery-status")
     Completable submitNewDeliveryOrderStatus(@Path("id") int orderID,
                                              @Body HashMap<String, DeliveryOrderStatus> newStatusBody,
                                              @Header("Authorization") String token);

@@ -31,7 +31,7 @@ public class DeliveryModel implements DeliveryContract.Model {
 
     @Override
     public Single<DeliveryInfo> getDeliveryInfo(int deliveryID, @NonNull String token) {
-            return deliveryDetailsRepository.getDeliveryInfo(deliveryID, token).flatMap(
+            return deliveryDetailsRepository.getDeliveryInfo(deliveryID, "Token "+token).flatMap(
                     (deliveryInfo1 -> {
                         this.deliveryInfo = deliveryInfo1;
                         return Single.just(deliveryInfo1);
