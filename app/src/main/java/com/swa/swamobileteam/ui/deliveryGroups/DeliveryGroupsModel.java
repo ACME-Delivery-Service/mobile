@@ -12,6 +12,7 @@ import com.swa.swamobileteam.data.deliveries.RouteRepositoryImpl;
 import com.swa.swamobileteam.utils.DeliveryType;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
@@ -22,13 +23,14 @@ public class DeliveryGroupsModel implements DeliveryGroupsContract.Model {
     private RouteRepository routeRepository;
 
     @Inject
-    DeliveryGroupsModel(RouteRepository routeRepository, DeliveriesListRepository scheduleRepository, DeliveriesListRepository inProgressDeliveriesRepository) {
+    DeliveryGroupsModel(RouteRepository routeRepository,
+                        @Named("ScheduleRepository") DeliveriesListRepository scheduleRepository,
+                        @Named("InProgressRepository")DeliveriesListRepository inProgressDeliveriesRepository) {
         this.scheduleRepository = scheduleRepository;
         this.inProgressDeliveriesRepository = inProgressDeliveriesRepository;
         this.routeRepository = routeRepository;
     }
 
-    // TODO: update presenters to use new method syntax which accept which action to perform
     @Override
     public Completable updateDeliveryOrderStatus(@NonNull int deliveryID, @NonNull DeliveryOrderStatus newStatus, @NonNull String token) {
         return scheduleRepository.updateDeliveryOrderStatus(deliveryID, newStatus, token);
@@ -52,6 +54,11 @@ public class DeliveryGroupsModel implements DeliveryGroupsContract.Model {
     @Override
     public Single<Integer> loadDeliveries(DeliveryType type, @NonNull String token) {
         return getRepositoryForType(type).loadDeliveries(token);
+    }
+
+    @Override
+    public void updateItemETA(Double minutes, int index, DeliveryType type) {
+        getRepositoryForType(type).updateItemETA(minutes, index);
     }
 
     private DeliveriesListRepository getRepositoryForType(DeliveryType type) {

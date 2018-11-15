@@ -10,7 +10,8 @@
         android:id="@+id/appbar_delivery"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:visibility="gone">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar_delivery"
@@ -22,9 +23,18 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+
     <ScrollView
+        android:id="@+id/layout_main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -70,12 +80,12 @@
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
                     android:paddingTop="10dp"
-                    android:text="Deliver to:"
+                    android:text="Client:"
                     android:textColor="@android:color/black"
                     android:textSize="24sp" />
 
                 <TextView
-                    android:id="@+id/nameTextView"
+                    android:id="@+id/text_client_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/textViewDeliverTo"
@@ -89,21 +99,20 @@
                     android:id="@+id/phoneTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/nameTextView"
                     android:layout_marginLeft="10dp"
                     android:paddingBottom="10dp"
                     android:text="+7-999-999-9999"
+                    android:layout_below="@id/text_client_name"
                     android:textSize="18sp" />
 
                 <ImageButton
                     android:id="@+id/image_button_call"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
                     android:layout_alignParentRight="true"
-                    android:layout_below="@+id/nameTextView"
-                    android:layout_marginRight="66dp"
-                    android:layout_marginTop="-32dp"
-                    app:srcCompat="@android:drawable/stat_sys_phone_call" />
+                    android:layout_alignTop="@id/text_client_name"
+                    android:src="@drawable/phone"
+                    android:layout_marginRight="66dp" />
 
             </RelativeLayout>
 
@@ -132,7 +141,6 @@
                     android:layout_below="@id/AdressTitle"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="10dp"
-                    android:text="One blalblalbal balblablabla"
                     android:textColor="@android:color/black"
                     android:textSize="18sp" />
 
@@ -148,8 +156,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_below="@id/mapView"
-                    android:layout_marginBottom="10dp"
                     android:layout_marginTop="5dp"
+                    android:layout_marginBottom="10dp"
                     android:background="@color/colorPrimary"
                     android:foreground="?attr/selectableItemBackground"
                     android:text="@string/text_to_map"
@@ -169,113 +177,36 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:paddingTop="10dp"
-                    android:text="Parcel info"
+                    android:text="Delivery info"
                     android:textColor="@android:color/black"
                     android:textSize="25sp" />
 
-                <TextView
-                    android:id="@+id/nameTitle"
+                <LinearLayout
+                    android:id="@+id/list_parcels"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/InfoTitle"
-                    android:text="Name: "
-                    android:textColor="@android:color/holo_orange_dark"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/parcelNameTextView"
-                    android:layout_width="wrap_content"
-
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/nameTitle"
-                    android:layout_marginLeft="1dp"
-                    android:layout_marginStart="1dp"
-                    android:layout_toEndOf="@+id/nameTitle"
-                    android:layout_toRightOf="@+id/nameTitle"
-                    android:text="Chtoto tam"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/weightTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/nameTitle"
-                    android:text="Weight: "
-                    android:textColor="@android:color/holo_orange_dark"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/weightTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/weightTitle"
-                    android:layout_marginLeft="1dp"
-                    android:layout_marginStart="1dp"
-                    android:layout_toEndOf="@+id/weightTitle"
-                    android:layout_toRightOf="@+id/weightTitle"
-                    android:text="0.5 kg"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/sizeTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/weightTitle"
-                    android:text="Dimensions: "
-                    android:textColor="@android:color/holo_orange_dark"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/dimensionsTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/sizeTitle"
-                    android:layout_marginLeft="1dp"
-                    android:layout_marginStart="1dp"
-                    android:layout_toEndOf="@+id/sizeTitle"
-                    android:layout_toRightOf="@+id/sizeTitle"
-                    android:text="12 * 12 * 12 "
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/idTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/sizeTitle"
-                    android:text="System ID number "
-                    android:textColor="@android:color/holo_orange_dark"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/parcelIDTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/idTitle"
-                    android:layout_marginLeft="1dp"
-                    android:layout_marginStart="1dp"
-                    android:layout_toEndOf="@+id/idTitle"
-                    android:layout_toRightOf="@+id/idTitle"
-                    android:text="123551535251"
-                    android:textSize="18sp" />
+                    android:layout_below="@id/InfoTitle"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="vertical" />
             </RelativeLayout>
 
             <android.support.v7.widget.AppCompatButton
-                android:id="@+id/FinishButton"
+                android:id="@+id/button_action"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/RelativeLayoutParcelInfo"
                 android:layout_marginTop="20dp"
                 android:backgroundTint="@color/colorPrimaryDark"
-                android:text="@string/text_finish"
                 android:textColor="@color/colorWhite" />
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/button_contact_operator"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/FinishButton"
-                android:layout_marginBottom="10dp"
+                android:layout_below="@+id/button_action"
                 android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
                 android:text="Contact Control Operator"
                 android:textColor="@android:color/white"
                 app:backgroundTint="@android:color/holo_orange_dark" />

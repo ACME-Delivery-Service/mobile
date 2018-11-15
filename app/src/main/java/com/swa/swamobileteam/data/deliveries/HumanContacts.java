@@ -1,6 +1,6 @@
 package com.swa.swamobileteam.data.deliveries;
 
-public class HumanContacts {
+public final class HumanContacts {
     /**
      * First name of the human
      */

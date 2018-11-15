@@ -52,7 +52,11 @@ public interface DeliveryGroupsContract {
         /**
          * Navigate to the delivery details screen
          */
-        void navigateToDelivery(String deliveryId);
+        void navigateToDelivery(int deliveryId);
+
+        void showLoadingError();
+
+        void notifyItemChanged(int index);
     }
     interface Presenter extends BasePresenter<View> {
         /**
@@ -77,6 +81,13 @@ public interface DeliveryGroupsContract {
          * Refresh data
          */
         void pullToRefresh();
+
+        /**
+         * Updates ETA of the particular item
+         * @param seconds ETA
+         * @param index index of the item
+         */
+        void updateItemETA(Double seconds, int index);
     }
 
     interface Model extends BaseModel {
@@ -110,6 +121,8 @@ public interface DeliveryGroupsContract {
          * @return
          */
         Single<Integer> loadDeliveries(DeliveryType type, @NonNull String token);
+
+        void updateItemETA(Double seconds, int index, DeliveryType type);
     }
 
     interface DeliveryView extends BaseView{
@@ -140,19 +153,13 @@ public interface DeliveryGroupsContract {
          * Sets PARCEL id of the delivery
          * @param id identifier of the delivery
          */
-        void setParcelId(String id);
+        void setParcelId(int id);
 
         /**
          * Sets address of the delivery
          * @param address address of the delivery
          */
         void setAddress(String address);
-
-        /**
-         * Sets weight of the delivery
-         * @param weight weight of the delivery
-         */
-        void setWeight(Double weight);
 
         /**
          * Sets the estimated time of the delivery

@@ -17,7 +17,7 @@ import butterknife.OnClick;
 public class DeliveryViewHolder extends RecyclerView.ViewHolder implements DeliveryGroupsContract.DeliveryView{
 
     private Resources resources;
-    private String deliveryId;
+    private int deliveryId;
 
     @BindView(R.id.text_date_divider)
     TextView dateDivider;
@@ -69,7 +69,7 @@ public class DeliveryViewHolder extends RecyclerView.ViewHolder implements Deliv
     }
 
     @Override
-    public void setParcelId(String id) {
+    public void setParcelId(int id) {
         deliveryId = id;
         parcelId.setText(resources.getString(R.string.text_parcel_id, id));
     }
@@ -77,15 +77,6 @@ public class DeliveryViewHolder extends RecyclerView.ViewHolder implements Deliv
     @Override
     public void setAddress(String address) {
         parcelAddress.setText(address);
-    }
-
-    @Override
-    public void setWeight(Double weight) {
-        if (weight < 1) {
-            parcelWeight.setText(resources.getString(R.string.text_delivery_small, String.valueOf(weight)));
-        } else {
-            parcelWeight.setText(resources.getString(R.string.text_delivery_large, String.valueOf(weight)));
-        }
     }
 
     @Override
@@ -99,13 +90,18 @@ public class DeliveryViewHolder extends RecyclerView.ViewHolder implements Deliv
     }
 
     @OnClick(R.id.button_details)
-    public void onDetailsCLick() {
+    public void onDetailsClick() {
         listener.onDetails(this.deliveryId);
     }
 
-    public interface OnDeliveryActionsClickListener {
-        void onDetails(String deliveryId);
+    @OnClick(R.id.button_delivery_action)
+    public void onActionClick() {
+        listener.onAction(this.deliveryId);
+    }
 
-        void onAction(String deliveryId);
+    public interface OnDeliveryActionsClickListener {
+        void onDetails(int deliveryId);
+
+        void onAction(int deliveryId);
     }
 }

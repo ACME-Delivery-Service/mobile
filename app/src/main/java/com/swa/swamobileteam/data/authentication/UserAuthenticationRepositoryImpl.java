@@ -1,7 +1,5 @@
 package com.swa.swamobileteam.data.authentication;
 
-import android.content.SharedPreferences;
-
 import com.swa.swamobileteam.transportApi.CredentialsManager;
 import com.swa.swamobileteam.transportApi.TransportApiClient;
 import com.swa.swamobileteam.transportApi.authentication.LoginRequestParams;
@@ -12,9 +10,9 @@ public class UserAuthenticationRepositoryImpl implements UserAuthenticationRepos
     private TransportApiClient apiClient;
     private CredentialsManager credentialsManager;
 
-    public UserAuthenticationRepositoryImpl(TransportApiClient apiClient, SharedPreferences preferences) {
+    public UserAuthenticationRepositoryImpl(TransportApiClient apiClient, CredentialsManager credentialsManager) {
         this.apiClient = apiClient;
-        this.credentialsManager = new CredentialsManager(preferences);
+        this.credentialsManager = credentialsManager;
     }
 
     @Override

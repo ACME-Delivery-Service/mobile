@@ -24,6 +24,8 @@ public interface AuthorizationContract {
 
         void showLoadingDialog();
 
+        void hideLoadingDialog();
+
     }
 
     interface Presenter extends BasePresenter<AuthorizationContract.View> {

@@ -39,4 +39,6 @@ public interface DeliveriesListRepository {
      * @return Operation result (success / failure).
      */
     Completable updateDeliveryOrderStatus(@NonNull int deliveryID, @NonNull DeliveryOrderStatus newStatus, @NonNull String token);
+
+    void updateItemETA(Double minutes, int index);
 }

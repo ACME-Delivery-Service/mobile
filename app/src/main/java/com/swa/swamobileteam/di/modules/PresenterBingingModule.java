@@ -8,6 +8,8 @@ import com.swa.swamobileteam.ui.delivery.DeliveryContract;
 import com.swa.swamobileteam.ui.delivery.DeliveryPresenter;
 import com.swa.swamobileteam.ui.deliveryGroups.DeliveryGroupsContract;
 import com.swa.swamobileteam.ui.deliveryGroups.DeliveryGroupsPresenter;
+import com.swa.swamobileteam.ui.finishDelivery.FinishDeliveryContract;
+import com.swa.swamobileteam.ui.finishDelivery.FinishDeliveryPresenter;
 
 import dagger.Binds;
 import dagger.Module;
@@ -29,5 +31,8 @@ abstract class PresenterBingingModule {
     @ActivityScope
     public abstract DeliveryContract.Presenter bindDeliveryPresenter(DeliveryPresenter presenter);
 
+    @Binds
+    @ActivityScope
+    public abstract FinishDeliveryContract.Presenter bindFinishDeliveryPresenter(FinishDeliveryPresenter presenter);
 
 }

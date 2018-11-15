@@ -14,11 +14,16 @@ import com.swa.swamobileteam.data.deliveries.DeliveryDetailsRepositoryImpl;
 import com.swa.swamobileteam.data.deliveries.DeliveriesListRepository;
 import com.swa.swamobileteam.data.deliveries.DeliveryScheduleRepository;
 import com.swa.swamobileteam.data.deliveries.InProgressDeliveriesRepository;
+import com.swa.swamobileteam.data.deliveries.RouteRepository;
+import com.swa.swamobileteam.data.deliveries.RouteRepositoryImpl;
 import com.swa.swamobileteam.di.AppScope;
+import com.swa.swamobileteam.transportApi.CredentialsManager;
 import com.swa.swamobileteam.transportApi.TransportApiClient;
 import com.swa.swamobileteam.utils.constants.AuthorizationConstants;
 import com.swa.swamobileteam.utils.cryptoManager.Encrypter;
 import com.swa.swamobileteam.utils.cryptoManager.KeyStorage;
+
+import javax.inject.Named;
 
 import dagger.Binds;
 import dagger.Module;
@@ -108,20 +113,34 @@ public class ApplicationModule {
 
     @AppScope
     @Provides
+    @Named("ScheduleRepository")
     public DeliveriesListRepository provideDeliveryScheduleReposory(TransportApiClient apiClient) {
         return new DeliveryScheduleRepository(apiClient);
     }
 
     @AppScope
     @Provides
+    @Named("InProgressRepository")
     public DeliveriesListRepository provideInProgressDeliveriesReposory(TransportApiClient apiClient) {
         return new InProgressDeliveriesRepository(apiClient);
     }
 
     @AppScope
     @Provides
-    public UserAuthenticationRepository provideUserAuthenticationReposory(TransportApiClient apiClient, SharedPreferences preferences) {
-        return new UserAuthenticationRepositoryImpl(apiClient, preferences);
+    public UserAuthenticationRepository provideUserAuthenticationReposory(TransportApiClient apiClient, CredentialsManager credentialsManager) {
+        return new UserAuthenticationRepositoryImpl(apiClient, credentialsManager);
+    }
+
+    @AppScope
+    @Provides
+    public CredentialsManager provideCredentialsManager(SharedPreferences preferences) {
+        return new CredentialsManager(preferences);
+    }
+
+    @AppScope
+    @Provides
+    public RouteRepository provideRouteReposory() {
+        return new RouteRepositoryImpl();
     }
 
     @Module

@@ -10,6 +10,19 @@ import com.swa.swamobileteam.data.deliveries.User;
 import java.util.List;
 
 public final class DeliveryInfo {
+
+    public DeliveryInfo(User user, DeliveryOrderStatus status, String description, Address addressTo,
+                        Address addressFrom, int id, DeliveryPeriod period, List<ParcelInfo> parcels){
+        this.customerInfo = user;
+        this.deliveryStatus = status;
+        this.description = description;
+        this.addressTo =addressTo;
+        this.addressFrom = addressFrom;
+        this.id = id;
+        this.deliveryPeriod = period;
+        this.parcelsInfo = parcels;
+    }
+
     /**
      * Customer first and last name, phone number
      */
